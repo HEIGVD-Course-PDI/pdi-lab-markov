@@ -1,5 +1,5 @@
-Markov chains lab -- solution
-=============================
+Markov chains lab
+=================
 
 The learning goals of this lab are:
 
