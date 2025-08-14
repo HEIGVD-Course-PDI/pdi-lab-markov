@@ -37,7 +37,7 @@ You have to complete the code in the existing file `./models/tennis.py` to imple
 - [ ] Answer the questions in file `Questions-tennis.md`.
 
 
-### 1.2 - Limiting probabilities
+### 1.2 - Limiting distributions
 
 The Markov chain is not recurrent and therefore does not have a unique stationary distribution. 
 It does have limiting distributions. Of course, they are not unique, but depend on the initial state.
@@ -45,7 +45,7 @@ Since a tennis game always starts with the score (0, 0), we can compute the limi
 
 #### Todo
 
-- [ ] Complete the function `def limiting_distribution(P, n)` that computes the limiting distribution of the transition matrix P, for n steps.
+- [ ] Complete the function `def limiting_distributions(P, n)` that computes the limiting distributions of the transition matrix P, for n steps.
 - [ ] Answer the questions in file `Questions-tennis.md`.
 
 
@@ -89,7 +89,7 @@ This model is difficult to implement directly. The states are all possible tripl
 
 ### 2.1 Gillespie algorithm
 
-The Gillespie algorithm is a simulation algorithm that allows us to easily simulate this model. Instead of simulating all states and their transitions in contiuous time, it proceeds in repeat steps:
+The Gillespie algorithm is a simulation algorithm that allows us to easily simulate this model. Instead of simulating all states and their transitions in contiuous time, it proceeds in three steps:
 
 1. Compute the time until the next event.
 2. Determine which of the possible events has happened and update the state accordingly.
@@ -97,13 +97,15 @@ The Gillespie algorithm is a simulation algorithm that allows us to easily simul
 
 ##### Compute the time until the next event
 
-A susceptible server can become infected with rate *infection_rate*. If we have *n* susceptible servers, the *infection_propensity* equals *n * infection_rate*.
+A susceptible server can become infected with rate *infection_rate*. If we have *n* susceptible servers, we can define an *infection_propensity* as *n * infection_rate*.
 
 An infected server can heal and become recovered with rate *recovery_rate*. If we have *m* infected servers, the *recovery_propensity* equals *m * recovery_rate*.
 
-Since the time until the next transition has an exponential distribution in a continuous-time Markov chain, we can simply generate the time *tau* until the next event like this:
+In a continuous-time Markov chain, the time until the next transition has an exponential distribution. Since there are several different events that may occur with different rates, the next event occurs at a rate that is the some of the individual rates. 
 
-```
+We can thus simply generate the time *tau* until the next event like this:
+
+```python
 import numpy as np
 infection_propensity = num_susceptible * infection_rate
 recovery_propensity = num_infected * recovery_rate
@@ -113,9 +115,9 @@ tau = np.random.exponential(1 / total_propensity)
 
 ##### Determine the next event
 
-After waiting for time *tau*, we need to determine which event has occurred. We have two types of events: a new infection or a server becomes immune. They occur with probabilities proportional to their propensities. We can use Numpy to choose the event like this:
+After waiting for time *tau*, we need to determine which event of the possible events has occurred. We have two types of events: a new infection or a server becomes immune. They occur with probabilities proportional to their propensities. We can use Numpy to choose the event like this:
 
-```
+```python
 event = np.random.choice(["infection", "recovery"], p=[infection_propensity/total_propensity, recovery_propensity/total_propensity])
 ```
 
@@ -158,16 +160,16 @@ Before developing a more realistic model, let's first save the SIR model.
 
 In the following, edit the `models/worm.py` file to implement a more realistic model for computer worms.
 
-- We will assume that the system adminstrators can patch infected or vulnerable servers with a *fixed* rate, such as 10 servers per unit of time.
+- We will assume that the system adminstrators can patch infected or vulnerable servers with a *fixed* rate, such as 5 servers per unit of time.
 - They will first patch infected servers, if there are any.
 - If there are no infected servers, they will patch susceptible servers.
 - If there aren't any infected or susceptible servers, we can stop the simulation, since no new events will happen.
 
 #### Todo
 
-- [ ] Change the `recovery_propensity` to make it fixed, not dependents on the number of infected servers.
+- [ ] Change the `recovery_propensity` to make it fixed, independent of the number of infected servers.
 - [ ] If the next event is `recovery` first try repairing an infected server if there are any. If not, repair a susceptible server. If there aren't any servers left to repair, stop the simulation.
-- [ ] Run the simulation with `infection_rate = 0.1` and `recovery_rate = 10.0`.
+- [ ] Run the simulation with `infection_rate = 0.1` and `recovery_rate = 5.0`.
 - [ ] Answer the questions in the file `Questions-worm.md`.
 
 

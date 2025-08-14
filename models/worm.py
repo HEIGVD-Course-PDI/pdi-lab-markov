@@ -29,18 +29,10 @@ class ServerFarm:
             # Determine the type of event (infection or recovery)
             event = xxx ### COMPLETE HERE
             if event == 'infection':
-                self.num_susceptible -= 1
-                self.num_infected += 1
-            if event == 'recovery':
-                if self.num_infected > 0:
-                    self.num_infected -= 1
-                    self.num_recovered += 1
-                elif self.num_susceptible > 0:
-                    self.num_susceptible -= 1
-                    self.num_recovered += 1
-                else:
-                    # There are no more infected or susceptible servers. Stop the simulation
-                    break
+                xxx ### COMPLETE HERE
+            elif event == 'recovery':
+                xxx ### COMPLETE HERE
+
 
     def trace(self, env, interval):
         while True:
@@ -53,7 +45,7 @@ class ServerFarm:
 def main():
     env = simpy.Environment()
     server_farm = ServerFarm()
-    env.process(server_farm.run(env, infection_rate=0.1, recovery_rate=10.0))
+    env.process(server_farm.run(env, infection_rate=0.1, recovery_rate=0.1))
     env.process(server_farm.trace(env, interval=1))
     env.run(until=200)
 
