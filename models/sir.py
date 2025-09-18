@@ -1,4 +1,4 @@
-"""Simulate a computer worm infection using the Gillespie algorithm"""
+"""Simulate a computer worm infection (SIR model) using the Gillespie algorithm"""
 
 import numpy as np
 import simpy
@@ -56,7 +56,7 @@ def main():
     plt.xlabel('Time')
     plt.ylabel('Number of Servers')
     plt.legend()
-    plt.savefig('worm_infection_simulation.png')
+    plt.savefig('sir_infection_simulation.png')
 
 if __name__ == "__main__":
     main()

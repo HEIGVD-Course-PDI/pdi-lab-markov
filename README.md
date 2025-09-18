@@ -75,13 +75,13 @@ The winning probability of player A can be computed from the limiting distributi
 2 - Continuous-time Markov chain - Computer worm infection
 ----------------------------------------------------------
 
-In this exercise we will implement simulate a worm infection of a server farm using Markov chains.
+In this exercise we will simulate a worm infection of a server farm using Markov chains.
 
 Suppose that we have a server farm with 1'000 servers. Each server can be in one of three states:
 
-- Susceptible: the server is susceptible to infection.
-- Infected: the server is currently infected.
-- Recovered: the server has been recovered and is not susceptible to infection anymore.
+- **Susceptible**: the server is susceptible to infection.
+- **Infected**: the server is currently infected.
+- **Recovered**: the server has been recovered and is not susceptible to infection anymore.
 
 The transitions between these states can be modeled as a continuous-time Markov chain. A susceptible server can become infected with rate `infection_rate`. An infected server can heal and become recovered with rate `recovery_rate`.
 
@@ -138,27 +138,24 @@ elif event == "recovery":
 
 We repeat these steps in a loop until the end of the simulation.
 
-#### Todo
-
-- [ ] Complete the code in the file `./models/worm.py` to implement this model.
-
 ### 2.2 - SIR model
 
-The previously implemented model is called *SIR model* for Susceptible - Infected - Recovered. The SIR model is used to describe the behavior of epidemics. In fact, it has been used to model the propagation of the Corona virus in 2020.
+To implement the Gillespie algorithm for the SIR model, complete the code in the file `./models/sir.py`.
+
+This model is called *SIR model* for Susceptible - Infected - Recovered. The SIR model is used to describe the behavior of epidemics. In fact, it has been used to model the propagation of the Corona virus in 2020.
 
 However, this model is not realistic for computers: computers do not have an immune system and do not heal by themselves. They have to be patched by the system administrators.
 
-Before developing a more realistic model, let's first save the SIR model.
-
 #### Todo
 
-- [ ] Copy the file `models/worm.py` and rename it `models/sir.py`.
-- [ ] Change the file name of the generated plot to `sir_infection_simulation.png`.
+- [ ] Implement the Gillespie algorithm in the `./models/sir.py` file.
 - [ ] Run the simulation to generate the plot for the SIR model.
+- [ ] Answer the questions in file `Questions-worm.md`, section 2.2.
 
 ### 2.3 - Realistic computer worm model
 
-In the following, edit the `models/worm.py` file to implement a more realistic model for computer worms.
+Let's implement a more realistic model for computer worms.
+
 
 - We will assume that the system adminstrators can patch infected or vulnerable servers with a *fixed* rate, such as 5 servers per unit of time.
 - They will first patch infected servers, if there are any.
@@ -167,6 +164,8 @@ In the following, edit the `models/worm.py` file to implement a more realistic m
 
 #### Todo
 
+- [ ] Copy the file `./models/sir.py` to `./models/worm.py`. Only edit this new file.
+- [ ] Change the name of the plot to `worm_infection_simulation.png`.
 - [ ] Change the `recovery_propensity` to make it fixed, independent of the number of infected servers.
 - [ ] If the next event is `recovery` first try repairing an infected server if there are any. If not, repair a susceptible server. If there aren't any servers left to repair, stop the simulation.
 - [ ] Run the simulation with `infection_rate = 0.1` and `recovery_rate = 5.0`.
